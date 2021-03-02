@@ -21,7 +21,7 @@ class BaseConfig(object):
     # SITE_DOMAIN="https://lincms.example.com"
 
     # 指定数据库
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:liurui135@localhost:3306/lin'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:123456@localhost:3306/test'
 
     # 屏蔽 sql alchemy 的 FSADeprecationWarning
     SQLALCHEMY_TRACK_MODIFICATIONS = False
