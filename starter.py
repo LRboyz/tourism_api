@@ -24,6 +24,7 @@ app = create_app(
     user_group_model=UserGroup,
     config_MESSAGE=MESSAGE,
     config_DESC=DESC,
+    syslogger=False
 )
 
 

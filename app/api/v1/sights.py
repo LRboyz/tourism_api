@@ -6,7 +6,7 @@ from sqlalchemy import text
 from app.model.v1.mysight import MySight
 from app.util.api_format import success_ret
 from app.util.page import paginate
-# from app.util.spider import get_total_page
+from app.util.spider import get_total_page
 
 sights_api = Redprint("sights", __name__)
 
@@ -72,9 +72,10 @@ def test_api():
 }
     return jsonify(data), 200
 
-# @sights_api.route('/spider')
-# def get_spider():
-#     page = get_total_page()
-#     return success_ret(page=page)
+
+@sights_api.route('/spider')
+def get_spider():
+    pictures = get_total_page()
+    return success_ret(data=pictures)
 
 
