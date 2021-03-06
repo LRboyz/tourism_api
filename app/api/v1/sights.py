@@ -1,12 +1,12 @@
-from flask import request, jsonify
-from lin.exception import Success
+from flask import request
 from lin.redprint import Redprint
 from sqlalchemy import text
 
+from app.model.v1.hotel import Hotel
 from app.model.v1.mysight import MySight
 from app.util.api_format import success_ret
 from app.util.page import paginate
-from app.util.spider import get_total_page
+from app.util.spider import spider_main
 
 sights_api = Redprint("sights", __name__)
 
@@ -25,57 +25,19 @@ def sight_api():
     return success_ret(data=sights, count=count, type=sort_type)
 
 
-@sights_api.route('/floor/', methods=['POST'])
-def test_api():
-    data = {
-    "device_id": "1",
-    "sensor_iaq": {
-        "status": 0,
-        "value": {
-            "H2S": 0.0,
-            "NH3": 0.0,
-            "humidity": 59.7,
-            "pm2d5": 12.0,
-            "temperature": 25.8
-        }
-    },
-    "sensor_sanitizer": [
-        {
-            "sensor_id": "2",
-            "value": 0
-        },
-        {
-            "sensor_id": "1",
-            "value": 0
-        }
-    ],
-    "sensor_tissue": [
-        {
-            "sensor_id": "11",
-            "status": 0,
-            "value": 0.8683
-        }
-    ],
-    "sensor_toilet_paper": [
-        {
-            "sensor_id": "5",
-            "status": 1,
-            "value": 0.4
-        },
-        {
-            "sensor_id": "6",
-            "status": 1,
-            "value": 0.6825
-        }
-    ],
-    "timestamp": 1614671797.527839
-}
-    return jsonify(data), 200
-
-
+# 爬取酒店数据接口
 @sights_api.route('/spider')
 def get_spider():
-    pictures = get_total_page()
-    return success_ret(data=pictures)
+    data = spider_main()
+    return success_ret(data=data)
+
+
+# 获取酒店信息接口
+@sights_api.route('/hotel')
+def get_hotel_info():
+    start, count = paginate()
+    info = (Hotel.query.order_by(text("create_time asc")).offset(start).limit(count).all())
+    count = Hotel.query.count()
+    return success_ret(data=info, count=count)
 
 
