@@ -1,5 +1,5 @@
 from lin.interface import InfoCrud as Base
-from sqlalchemy import Column, String, Integer
+from sqlalchemy import Column, String, Integer, DateTime
 
 
 class Hotel(Base):
@@ -12,8 +12,4 @@ class Hotel(Base):
     room_type = Column(String(500))
     phone = Column(String(200))
     address = Column(String(200))
-
-    def __init__(self, **items):
-        for key in items:
-            if hasattr(self, key):
-                setattr(self, key, items[key])
+    price = Column(Integer())

@@ -1,6 +1,7 @@
 import requests
 from pyquery import PyQuery as pq
 from app.model.v1.hotel import Hotel
+import random
 import multiprocessing
 import logging
 
@@ -44,6 +45,7 @@ def parse_detail(html):
         infos['room_type'] = doc('.f_lvattraction_lir:eq({item}) p:eq(1)'.format(item=item)).text().split('：')[-1]
         infos['phone'] = doc('.f_lvattraction_lir:eq({item}) p:eq(2)'.format(item=item)).text().split('：')[-1]
         infos['address'] = doc('.f_lvattraction_lir:eq({item}) p:eq(3)'.format(item=item)).text().split('：')[-1]
+        infos['price'] = random.randint(10, 100)  # 生成10-100随机数
         hotel = Hotel()
         # 存入MYSQL数据库
         hotel.create(**infos, commit=True)

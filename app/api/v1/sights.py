@@ -41,3 +41,8 @@ def get_hotel_info():
     return success_ret(data=info, count=count)
 
 
+@sights_api.route('/check', methods=['POST'])
+def post_check_in_info():
+    pass
+
+
